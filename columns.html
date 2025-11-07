@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -159,7 +159,7 @@
         <!-- Exercise 3: Sports Team Statistics -->
         <div class="exercise-card bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
             <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white py-6 px-8">
-                <h2 class="text-3xl font-bold mb-2">⚽ Exercise 3: Sports Team Performance</h2>
+                <h2 class="text-3xl font-bold mb-2"> Exercise 3: Sports Team Performance</h2>
                 <p class="opacity-90">Track player statistics and calculate averages, rankings, and performance categories</p>
             </div>
 
@@ -229,10 +229,10 @@
                             <thead>
                                 <tr class="bg-red-600 text-white">
                                     <th class="py-3 px-4 text-left font-semibold">Day of Week</th>
-                                    <th class="py-3 px-4 text-center font-semibold">Morning Temp (°C)</th>
-                                    <th class="py-3 px-4 text-center font-semibold">Afternoon Temp (°C)</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Morning Temp (C)</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Afternoon Temp (C)</th>
                                     <th class="py-3 px-4 text-center font-semibold bg-red-700">Daily Average Temp</th>
-                                    <th class="py-3 px-4 text-center font-semibold bg-red-700">Comfortable? (18-25°C)</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-red-700">Comfortable? (18-25C)</th>
                                     <th class="py-3 px-4 text-center font-semibold bg-red-700">Temperature Change</th>
                                 </tr>
                             </thead>
@@ -262,7 +262,7 @@
                     <h4 class="text-xl font-bold text-red-700 mb-4">🎯 Tasks to Complete:</h4>
                     <ol class="list-decimal list-inside space-y-3 text-gray-800">
                         <li><strong>Daily Average Temp:</strong> Calculate the average of morning and afternoon temperatures</li>
-                        <li><strong>Comfortable?:</strong> Check if the average temperature is between 18°C and 25°C (comfortable range)</li>
+                        <li><strong>Comfortable?:</strong> Check if the average temperature is between 18C and 25C (comfortable range)</li>
                         <li><strong>Temperature Change:</strong> Calculate how much the temperature changed from morning to afternoon</li>
                     </ol>
                     <div class="mt-4 p-4 bg-white border-l-4 border-red-600 rounded">
@@ -275,7 +275,7 @@
         <!-- Tips Section -->
         <div class="bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
             <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-6 px-8">
-                <h2 class="text-3xl font-bold mb-2">💡 Tips & Tricks</h2>
+                <h2 class="text-3xl font-bold mb-2"> Tips & Tricks</h2>
             </div>
 
             <div class="py-10 px-8">
@@ -283,22 +283,22 @@
                     <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
                         <h4 class="text-lg font-bold text-blue-700 mb-3">📐 Formula Reminders</h4>
                         <ul class="space-y-2 text-gray-800 text-sm">
-                            <li>✓ <strong>AVERAGE:</strong> =AVERAGE(A1:A5)</li>
-                            <li>✓ <strong>SUM:</strong> =SUM(A1:A5)</li>
-                            <li>✓ <strong>Multiplication:</strong> =A1*B1</li>
-                            <li>✓ <strong>Division:</strong> =A1/B1</li>
-                            <li>✓ <strong>Percentage:</strong> =(A1/B1)*100</li>
+                            <li> <strong>AVERAGE:</strong> =AVERAGE(A1:A5)</li>
+                            <li> <strong>SUM:</strong> =SUM(A1:A5)</li>
+                            <li> <strong>Multiplication:</strong> =A1*B1</li>
+                            <li> <strong>Division:</strong> =A1/B1</li>
+                            <li> <strong>Percentage:</strong> =(A1/B1)*100</li>
                         </ul>
                     </div>
 
                     <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
-                        <h4 class="text-lg font-bold text-green-700 mb-3">⚙️ Conditional Formulas</h4>
+                        <h4 class="text-lg font-bold text-green-700 mb-3">️ Conditional Formulas</h4>
                         <ul class="space-y-2 text-gray-800 text-sm">
-                            <li>✓ <strong>IF:</strong> =IF(A1>100, "High", "Low")</li>
-                            <li>✓ <strong>RANK:</strong> =RANK(A1, A$1:A$10)</li>
-                            <li>✓ <strong>MAX:</strong> =MAX(A1:A5) for highest</li>
-                            <li>✓ <strong>MIN:</strong> =MIN(A1:A5) for lowest</li>
-                            <li>✓ <strong>AND:</strong> =IF(AND(A1>18, A1<25), "Yes", "No")</li>
+                            <li> <strong>IF:</strong> =IF(A1>100, "High", "Low")</li>
+                            <li> <strong>RANK:</strong> =RANK(A1, A$1:A$10)</li>
+                            <li> <strong>MAX:</strong> =MAX(A1:A5) for highest</li>
+                            <li> <strong>MIN:</strong> =MIN(A1:A5) for lowest</li>
+                            <li> <strong>AND:</strong> =IF(AND(A1>18, A1<25), "Yes", "No")</li>
                         </ul>
                     </div>
                 </div>
@@ -547,7 +547,7 @@
                 data: {
                     labels: temps.map(t => t.day),
                     datasets: [{
-                        label: 'Temperature Change (°C)',
+                        label: 'Temperature Change (C)',
                         data: temps.map(t => t.afternoon - t.morning),
                         backgroundColor: temps.map(t => t.afternoon - t.morning > 5 ? '#ef4444' : '#10b981')
                     }]

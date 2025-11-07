@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -416,7 +416,7 @@
                         <p class="text-gray-700"><strong>What It Tells Us:</strong> Is the region growing fast (>15%), steady (>5%), or stagnant?</p>
                     </div>
                     <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
-                        <p class="font-mono text-purple-700 font-semibold mb-3">= IF(Growth>15%, "🚀 High", IF(Growth>5%, "📊 Good", "⚠️ Low"))</p>
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= IF(Growth>15%, "🚀 High", IF(Growth>5%, "📊 Good", "️ Low"))</p>
                         <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
                         <p class="text-gray-600 text-sm">North Growth 15.56% > 15%</p>
                         <p class="text-gray-600 text-sm font-bold text-purple-700">= "🚀 High"</p>
@@ -437,10 +437,10 @@
                         <p class="text-gray-700"><strong>What It Tells Us:</strong> Quick assessment based on rank position</p>
                     </div>
                     <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
-                        <p class="font-mono text-purple-700 font-semibold mb-3">= IF(Rank<=2, "⭐ Top Performer", IF(Rank<=4, "✅ Strong", "📈 Developing"))</p>
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= IF(Rank<=2, " Top Performer", IF(Rank<=4, " Strong", "📈 Developing"))</p>
                         <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
                         <p class="text-gray-600 text-sm">If Rank = 2 <= 2</p>
-                        <p class="text-gray-600 text-sm font-bold text-purple-700">= "⭐ Top Performer"</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= " Top Performer"</p>
                     </div>
                 </div>
             </div>
@@ -453,18 +453,18 @@
                     <div class="bg-white rounded-lg p-4 border-l-4 border-indigo-600">
                         <h4 class="font-bold text-indigo-600 mb-3">Raw Data (2 columns)</h4>
                         <ul class="text-gray-700 space-y-2">
-                            <li>✓ Region</li>
-                            <li>✓ Q1 Sales</li>
-                            <li>✓ Q2 Sales</li>
+                            <li> Region</li>
+                            <li> Q1 Sales</li>
+                            <li> Q2 Sales</li>
                         </ul>
                     </div>
 
                     <div class="bg-white rounded-lg p-4 border-l-4 border-purple-600">
                         <h4 class="font-bold text-purple-600 mb-3">Calculated (9 columns)</h4>
                         <ul class="text-gray-700 space-y-2">
-                            <li>✓ Arithmetic: Total, Average, Growth</li>
-                            <li>✓ Percentages: % of Total, Commission</li>
-                            <li>✓ Conditional: Above Avg, Rank, Performance, Status</li>
+                            <li> Arithmetic: Total, Average, Growth</li>
+                            <li> Percentages: % of Total, Commission</li>
+                            <li> Conditional: Above Avg, Rank, Performance, Status</li>
                         </ul>
                     </div>
                 </div>
@@ -558,8 +558,8 @@
             const sorted = [...data].sort((a, b) => b.totalSales - a.totalSales);
             data.forEach(d => {
                 d.rank = sorted.findIndex(s => s.region === d.region) + 1;
-                d.performance = d.growth > 15 ? "🚀 High" : d.growth > 5 ? "📊 Good" : "⚠️ Low";
-                d.status = d.rank <= 2 ? "⭐ Top Performer" : d.rank <= 4 ? "✅ Strong" : "📈 Developing";
+                d.performance = d.growth > 15 ? "🚀 High" : d.growth > 5 ? "📊 Good" : "️ Low";
+                d.status = d.rank <= 2 ? " Top Performer" : d.rank <= 4 ? " Strong" : "📈 Developing";
             });
 
             return { data, grandTotal, avgAll, totalQ1: regions.reduce((sum, r) => sum + r.q1, 0), totalQ2: regions.reduce((sum, r) => sum + r.q2, 0) };
