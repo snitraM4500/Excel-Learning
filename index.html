@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Excel Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        /* Custom gradient backgrounds not available in base Tailwind */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-5 gradient-bg">
+    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="gradient-bg text-white py-10 px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3">📊 Advanced Excel Concepts</h1>
+            <p class="text-lg md:text-xl opacity-90">Master Data Types, Charts, and Formulas</p>
+        </div>
+
+        <div class="py-10 px-8">
+            <!-- Data Types Section -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">🏷️ Understanding Data Types</h2>
+                
+                <h3 class="text-2xl text-purple-700 mt-6 mb-4">Qualitative (Categorical) Data</h3>
+                <p class="mb-4">Information about qualities that fall into categories, not directly described by numbers.</p>
+                <div class="overflow-x-auto my-5">
+                    <table class="w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead>
+                            <tr class="bg-indigo-600 text-white">
+                                <th class="py-3 px-4 text-left font-semibold">Examples</th>
+                                <th class="py-3 px-4 text-left font-semibold">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Brands</td>
+                                <td class="py-3 px-4">Product types or names</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Nationality</td>
+                                <td class="py-3 px-4">Country of origin</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Professions</td>
+                                <td class="py-3 px-4">Job titles or occupations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-4 rounded leading-relaxed">
+                    <strong>Key Statistic:</strong> With categorical data, we calculate <strong>proportions</strong> and <strong>percentages</strong>. For example: =COUNTIF(range, criteria) / COUNTA(range) gives you the proportion of a category.
+                </div>
+
+                <h3 class="text-2xl text-purple-700 mt-6 mb-4">Quantitative (Numerical) Data</h3>
+                <p class="mb-4">Information described directly by numbers and measurements.</p>
+                <div class="overflow-x-auto my-5">
+                    <table class="w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead>
+                            <tr class="bg-indigo-600 text-white">
+                                <th class="py-3 px-4 text-left font-semibold">Examples</th>
+                                <th class="py-3 px-4 text-left font-semibold">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Income</td>
+                                <td class="py-3 px-4">Monetary amounts</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Age</td>
+                                <td class="py-3 px-4">Years lived</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Height</td>
+                                <td class="py-3 px-4">Physical measurements</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-4 rounded leading-relaxed">
+                    <strong>Key Statistics:</strong> With numerical data, we calculate <strong>average, sum, range, min, max</strong>. For example: =AVERAGE(range), =SUM(range), =MAX(range)-MIN(range)
+                </div>
+            </div>
+
+            <!-- Challenge 1 -->
+            <div class="bg-yellow-50 border-l-8 border-yellow-400 p-5 my-8 rounded text-lg">
+                <strong class="text-red-500 block mb-3 text-xl">🎯 Challenge 1: Calculate Proportions</strong>
+                If a dataset has 50 people and 30 prefer Brand A, what proportion prefer it?
+                <div class="bg-gray-200 p-4 rounded my-4 flex flex-wrap gap-3 items-center">
+                    <input type="number" id="total1" placeholder="Total people" value="50" class="py-2 px-3 border-2 border-indigo-600 rounded text-base">
+                    <input type="number" id="preferring1" placeholder="Preferring Brand A" value="30" class="py-2 px-3 border-2 border-indigo-600 rounded text-base">
+                    <button onclick="calculateProportion()" class="py-2 px-5 bg-indigo-600 text-white rounded font-semibold hover:bg-purple-700 transition cursor-pointer border-none">Calculate</button>
+                </div>
+                <div class="hidden bg-green-100 border-2 border-green-500 p-4 rounded mt-3" id="result1"></div>
+                <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">Formula: =COUNTIF(range, "Brand A") / COUNTA(range)</div>
+            </div>
+
+            <!-- Bar Charts Section -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">📊 Bar Charts</h2>
+                
+                <h3 class="text-2xl text-purple-700 mt-6 mb-4">Clustered Bar Chart</h3>
+                <p class="mb-4">Used when comparing values across categories. Order is not important, but values matter.</p>
+                
+                <div class="overflow-x-auto my-5">
+                    <table class="w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead>
+                            <tr class="bg-indigo-600 text-white">
+                                <th class="py-3 px-4 text-left font-semibold">Type</th>
+                                <th class="py-3 px-4 text-left font-semibold">Gen 1 Count</th>
+                                <th class="py-3 px-4 text-left font-semibold">Gen 2 Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Grass</td>
+                                <td class="py-3 px-4">12</td>
+                                <td class="py-3 px-4">9</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Fire</td>
+                                <td class="py-3 px-4">12</td>
+                                <td class="py-3 px-4">8</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Water</td>
+                                <td class="py-3 px-4">30</td>
+                                <td class="py-3 px-4">18</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Bug</td>
+                                <td class="py-3 px-4">13</td>
+                                <td class="py-3 px-4">10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="relative h-96 my-8 bg-gray-50 rounded-lg p-5 shadow-md">
+                    <canvas id="clusteredChart"></canvas>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-4 rounded leading-relaxed">
+                    This clustered bar chart shows Pokemon type counts side-by-side. We can easily see that <strong>Water-type Pokemon are most common</strong> and <strong>Fire-type are least common</strong> in both generations.
+                </div>
+
+                <h3 class="text-2xl text-purple-700 mt-6 mb-4">Stacked Bar Chart</h3>
+                <p class="mb-4">Highlights the total contribution for each category by stacking bars on top of each other.</p>
+
+                <div class="relative h-96 my-8 bg-gray-50 rounded-lg p-5 shadow-md">
+                    <canvas id="stackedChart"></canvas>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-4 rounded leading-relaxed">
+                    This stacked bar chart shows the combined totals. The total bar length represents all Pokemon of each type across both generations. <strong>Gen 1</strong> is shown in blue, <strong>Gen 2</strong> in orange.
+                </div>
+
+                <h3 class="text-2xl text-purple-700 mt-6 mb-4">100% Stacked Bar Chart</h3>
+                <p class="mb-4">Shows the proportion of each data column within each category (all scale to 100%).</p>
+
+                <div class="relative h-96 my-8 bg-gray-50 rounded-lg p-5 shadow-md">
+                    <canvas id="percentChart"></canvas>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-4 rounded leading-relaxed">
+                    This chart answers: "What proportion of each type came from Gen 1 vs Gen 2?" Notice that Water-type Pokemon have a different ratio than Fire-type Pokemon.
+                </div>
+            </div>
+
+            <!-- Challenge 2 -->
+            <div class="bg-yellow-50 border-l-8 border-yellow-400 p-5 my-8 rounded text-lg">
+                <strong class="text-red-500 block mb-3 text-xl">🎯 Challenge 2: Find the Sum</strong>
+                What is the total count of all Grass-type Pokemon across Gen 1 and Gen 2?
+                <div class="bg-gray-200 p-4 rounded my-4 flex flex-wrap gap-3 items-center">
+                    <input type="number" id="grass1" placeholder="Gen 1 Grass" value="12" class="py-2 px-3 border-2 border-indigo-600 rounded text-base">
+                    <input type="number" id="grass2" placeholder="Gen 2 Grass" value="9" class="py-2 px-3 border-2 border-indigo-600 rounded text-base">
+                    <button onclick="calculateSum()" class="py-2 px-5 bg-indigo-600 text-white rounded font-semibold hover:bg-purple-700 transition cursor-pointer border-none">Calculate Sum</button>
+                </div>
+                <div class="hidden bg-green-100 border-2 border-green-500 p-4 rounded mt-3" id="result2"></div>
+                <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">Formula: =SUM(A1:A2)</div>
+            </div>
+
+            <!-- Pie and Doughnut Charts -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">🥧 Pie & Doughnut Charts</h2>
+
+                <h3 class="text-2xl text-purple-700 mt-6 mb-4">2-D Pie Chart</h3>
+                <p class="mb-4">Used with a single data column to show composition and relative sizes of categories.</p>
+
+                <div class="overflow-x-auto my-5">
+                    <table class="w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead>
+                            <tr class="bg-indigo-600 text-white">
+                                <th class="py-3 px-4 text-left font-semibold">Type</th>
+                                <th class="py-3 px-4 text-left font-semibold">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Grass</td>
+                                <td class="py-3 px-4">12</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Fire</td>
+                                <td class="py-3 px-4">12</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Water</td>
+                                <td class="py-3 px-4">30</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="py-3 px-4">Bug</td>
+                                <td class="py-3 px-4">13</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="relative h-96 my-8 bg-gray-50 rounded-lg p-5 shadow-md">
+                    <canvas id="pieChart"></canvas>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-4 rounded leading-relaxed">
+                    The pie chart shows each type as a slice of the whole. Water-type takes up the largest slice, demonstrating it's the most common. This works best for 2-5 categories.
+                </div>
+
+                <h3 class="text-2xl text-purple-700 mt-6 mb-4">Doughnut Chart</h3>
+                <p class="mb-4">Similar to pie charts but with a hollow center, often used for multiple data columns.</p>
+
+                <div class="relative h-96 my-8 bg-gray-50 rounded-lg p-5 shadow-md">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 my-5 rounded">
+                    <strong class="text-green-800">💡 Tip:</strong> Use pie/doughnut charts for parts-of-a-whole comparisons. Use bar charts for comparing values across categories. Use line charts to show trends over time.
+                </div>
+            </div>
+
+            <!-- Challenge 3 -->
+            <div class="bg-yellow-50 border-l-8 border-yellow-400 p-5 my-8 rounded text-lg">
+                <strong class="text-red-500 block mb-3 text-xl">🎯 Challenge 3: Calculate Percentage</strong>
+                Water-type has 30 Pokemon out of 67 total (12+12+30+13). What percentage is that?
+                <div class="bg-gray-200 p-4 rounded my-4 flex flex-wrap gap-3 items-center">
+                    <input type="number" id="part3" placeholder="Water count" value="30" class="py-2 px-3 border-2 border-indigo-600 rounded text-base">
+                    <input type="number" id="whole3" placeholder="Total" value="67" class="py-2 px-3 border-2 border-indigo-600 rounded text-base">
+                    <button onclick="calculatePercentage()" class="py-2 px-5 bg-indigo-600 text-white rounded font-semibold hover:bg-purple-700 transition cursor-pointer border-none">Calculate %</button>
+                </div>
+                <div class="hidden bg-green-100 border-2 border-green-500 p-4 rounded mt-3" id="result3"></div>
+                <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">Formula: =(part/whole)*100 or =ROUND((part/whole)*100, 2)</div>
+            </div>
+
+            <!-- Excel Formulas Section -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">🔧 Essential Excel Formulas</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
+                    <div>
+                        <h3 class="text-2xl text-purple-700 mt-6 mb-4">Aggregate Functions</h3>
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=SUM(A1:A10)</div>
+                        <p class="mb-4">Adds all values in the range</p>
+
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=AVERAGE(A1:A10)</div>
+                        <p class="mb-4">Calculates the mean of values</p>
+
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=MAX(A1:A10)</div>
+                        <p class="mb-4">Finds the largest value</p>
+
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=MIN(A1:A10)</div>
+                        <p class="mb-4">Finds the smallest value</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl text-purple-700 mt-6 mb-4">Counting & Conditional Functions</h3>
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=COUNT(A1:A10)</div>
+                        <p class="mb-4">Counts numeric values only</p>
+
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=COUNTA(A1:A10)</div>
+                        <p class="mb-4">Counts all non-empty cells</p>
+
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=COUNTIF(A1:A10,"Water")</div>
+                        <p class="mb-4">Counts cells matching a condition</p>
+
+                        <div class="bg-gray-100 border border-gray-300 p-3 rounded font-mono my-3 overflow-x-auto text-pink-600">=SUMIF(A1:A10,"Water",B1:B10)</div>
+                        <p class="mb-4">Sums values based on a condition</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Challenge -->
+            <div class="bg-yellow-50 border-l-8 border-yellow-400 p-5 my-8 rounded text-lg">
+                <strong class="text-red-500 block mb-3 text-xl">🎯 Final Challenge: Multi-Step Calculation</strong>
+                Given the Gen 1 data: Grass=12, Fire=12, Water=30, Bug=13
+                <br><br>
+                <strong>Calculate:</strong> What is the average Pokemon count per type, and what percentage above/below average is Water-type?
+                <div class="bg-gray-200 p-4 rounded my-4 flex flex-wrap gap-3 items-center">
+                    <button onclick="calculateFinalChallenge()" class="py-2 px-5 bg-indigo-600 text-white rounded font-semibold hover:bg-purple-700 transition cursor-pointer border-none">Solve Challenge</button>
+                </div>
+                <div class="hidden bg-green-100 border-2 border-green-500 p-4 rounded mt-3" id="resultFinal"></div>
+            </div>
+
+            <div class="text-center mt-10 pt-5 border-t-2 border-gray-300 text-gray-600">
+                <p>Master these concepts to become an Excel wizard! 🧙‍♂️</p>
+            </div>
+
+            <!-- Advanced Data Analysis Section -->
+            
+</body>
+</html>

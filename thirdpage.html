@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Data Analysis Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .table-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-5 gradient-bg">
+    <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="gradient-bg text-white py-10 px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3">📈 Advanced Data Analysis Dashboard</h1>
+            <p class="text-lg md:text-xl opacity-90">Sales Performance Analysis with Calculated Metrics</p>
+        </div>
+
+        <div class="py-10 px-8">
+            <!-- Introduction Section -->
+            <div class="mb-8">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">📊 Sales Regional Analysis</h2>
+                <p class="text-lg mb-4">This dashboard analyzes quarterly sales data across 6 regions. Most columns are calculated using Excel formulas based on the base data.</p>
+            </div>
+
+            <!-- Comprehensive Data Table -->
+            <div class="mb-12">
+                <div class="table-container">
+                    <table class="w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead>
+                            <tr class="bg-indigo-600 text-white text-sm">
+                                <th class="py-3 px-4 text-left font-semibold border-r">Region</th>
+                                <th class="py-3 px-4 text-left font-semibold border-r">Q1 Sales</th>
+                                <th class="py-3 px-4 text-left font-semibold border-r">Q2 Sales</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">Total Sales</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">Avg Quarterly</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">Growth Q1→Q2</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">% of Total</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">Commission (8%)</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">Above Avg?</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">Rank</th>
+                                <th class="py-3 px-4 text-right font-semibold border-r">Performance</th>
+                                <th class="py-3 px-4 text-right font-semibold">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-gray-200 font-bold text-base">
+                                <td class="py-3 px-4">TOTAL</td>
+                                <td class="py-3 px-4 text-right" id="totalQ1">$0</td>
+                                <td class="py-3 px-4 text-right" id="totalQ2">$0</td>
+                                <td class="py-3 px-4 text-right" id="grandTotal">$0</td>
+                                <td class="py-3 px-4 text-right" id="avgAll">$0</td>
+                                <td class="py-3 px-4"></td>
+                                <td class="py-3 px-4 text-right">100%</td>
+                                <td class="py-3 px-4 text-right" id="totalCommission">$0</td>
+                                <td colspan="4"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">📊 Visual Analysis</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl text-purple-700 mt-6 mb-4">Quarterly Sales Comparison</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="quarterlyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl text-purple-700 mt-6 mb-4">Total Sales by Region</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="regionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    <div>
+                        <h3 class="text-2xl text-purple-700 mt-6 mb-4">Sales Distribution Pie Chart</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl text-purple-700 mt-6 mb-4">Commission Earned per Region</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="commissionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formula Reference Section -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">🔧 Formula Reference</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl text-purple-700 mb-4">Base Calculations</h3>
+                        <div class="bg-gray-100 border-l-4 border-indigo-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-indigo-600">Total Sales:</div>
+                            =Q1 Sales + Q2 Sales
+                        </div>
+                        <div class="bg-gray-100 border-l-4 border-indigo-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-indigo-600">Average Quarterly:</div>
+                            =AVERAGE(Q1, Q2) or =Total/2
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl text-purple-700 mb-4">Advanced Calculations</h3>
+                        <div class="bg-gray-100 border-l-4 border-purple-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-purple-600">Growth Rate:</div>
+                            =(Q2-Q1)/Q1*100
+                        </div>
+                        <div class="bg-gray-100 border-l-4 border-purple-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-purple-600">Percentage of Total:</div>
+                            =Total Sales/Grand Total*100
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl text-purple-700 mb-4">Conditional Logic</h3>
+                        <div class="bg-gray-100 border-l-4 border-green-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-green-600">Commission:</div>
+                            =Total Sales * 0.08
+                        </div>
+                        <div class="bg-gray-100 border-l-4 border-green-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-green-600">Above Average:</div>
+                            =IF(Total&gt;Average,"Yes","No")
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl text-purple-700 mb-4">Ranking & Status</h3>
+                        <div class="bg-gray-100 border-l-4 border-pink-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-pink-600">Rank:</div>
+                            =RANK(Total Sales, All Totals)
+                        </div>
+                        <div class="bg-gray-100 border-l-4 border-pink-600 p-4 mb-3 rounded font-mono text-sm overflow-x-auto">
+                            <div class="font-bold text-pink-600">Status:</div>
+                            =IF(Growth&gt;15%,"🚀 High","📊 Normal")
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+
+        <div class="gradient-bg text-white py-10 px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3">📚 Excel Column Guide</h1>
+            <p class="text-lg md:text-xl opacity-90">Understanding Every Calculation in the Sales Dashboard</p>
+        </div>
+
+        <div class="py-10 px-8">
+            <!-- Introduction -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl text-indigo-600 mb-5 pb-3 border-b-4 border-indigo-600">🎯 How to Read This Guide</h2>
+                <p class="text-lg mb-4">Each column below shows:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                        <strong class="text-blue-700">Column Name:</strong> The title of the column in the table
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                        <strong class="text-green-700">Type:</strong> Whether it's raw data or calculated
+                    </div>
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
+                        <strong class="text-purple-700">Excel Formula:</strong> The exact formula used in Excel
+                    </div>
+                    <div class="bg-pink-50 border-l-4 border-pink-500 p-4 rounded">
+                        <strong class="text-pink-700">Example Calculation:</strong> A step-by-step walkthrough
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 1: Region -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-indigo-50 to-blue-50 border-2 border-indigo-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-indigo-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">1</div>
+                    <h3 class="text-2xl text-indigo-700 ml-4 font-bold">Region</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm">Raw Data</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Identifies which sales region each row represents</p>
+                        <p class="text-gray-700"><strong>Examples:</strong> North, South, East, West, Central, Pacific</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-indigo-600 p-4 rounded">
+                        <p class="font-semibold text-indigo-700 mb-2">No Formula Needed</p>
+                        <p class="text-gray-600 text-sm">This is the base data - it's entered directly and not calculated from other columns</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Q1 Sales -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-indigo-50 to-blue-50 border-2 border-indigo-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-indigo-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">2</div>
+                    <h3 class="text-2xl text-indigo-700 ml-4 font-bold">Q1 Sales ($)</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm">Raw Data</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> The total sales amount for Quarter 1 in that region</p>
+                        <p class="text-gray-700"><strong>Example:</strong> North region had $45,000 in Q1 sales</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-indigo-600 p-4 rounded">
+                        <p class="font-semibold text-indigo-700 mb-2">No Formula Needed</p>
+                        <p class="text-gray-600 text-sm">This is the base data - it's entered directly and represents actual sales figures</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3: Q2 Sales -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-indigo-50 to-blue-50 border-2 border-indigo-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-indigo-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">3</div>
+                    <h3 class="text-2xl text-indigo-700 ml-4 font-bold">Q2 Sales ($)</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm">Raw Data</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> The total sales amount for Quarter 2 in that region</p>
+                        <p class="text-gray-700"><strong>Example:</strong> North region had $52,000 in Q2 sales</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-indigo-600 p-4 rounded">
+                        <p class="font-semibold text-indigo-700 mb-2">No Formula Needed</p>
+                        <p class="text-gray-600 text-sm">This is the base data - it's entered directly and represents actual sales figures</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 4: Total Sales -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">4</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Total Sales ($)</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Combines Q1 and Q2 sales to show the total sales for each region across both quarters</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> How much total revenue each region generated</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= Q1 Sales + Q2 Sales</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">North: $45,000 + $52,000</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= $97,000</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 5: Average Quarterly -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">5</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Avg Quarterly ($)</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Shows the average sales per quarter for each region</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> On average, how much does each region sell in a single quarter?</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= Total Sales ÷ 2</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">North: $97,000 ÷ 2</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= $48,500</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 6: Growth Q1→Q2 -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">6</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Growth Q1→Q2 (%)</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Measures how much sales increased from Q1 to Q2</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> Is the region performing better? Positive = growing, Negative = declining</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= ((Q2 - Q1) / Q1) × 100</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">North: (($52,000 - $45,000) / $45,000) × 100</p>
+                        <p class="text-gray-600 text-sm">= ($7,000 / $45,000) × 100</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= 15.56%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 7: % of Total -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">7</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">% of Total</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Shows what percentage of total company sales each region represents</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> Which regions are most important to overall business?</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= (Total Sales / Grand Total) × 100</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">If North = $97,000 & Grand Total = $585,000</p>
+                        <p class="text-gray-600 text-sm">($97,000 / $585,000) × 100</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= 16.58%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 8: Commission (8%) -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">8</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Commission (8%)</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Calculates the 8% commission earned on total sales for each region</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> How much commission money each region manager earns?</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= Total Sales × 0.08</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">North: $97,000 × 0.08</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= $7,760</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 9: Above Avg? -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">9</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Above Avg?</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Compares each region's sales to the company average</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> Is this region performing better than average?</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= IF(Total Sales > Average, "Yes", "No")</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">If North $97,000 > Company Avg $97,500</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= "No"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 10: Rank -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">10</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Rank</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Ranks regions by total sales from best to worst</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> 1st place is the top performer, last place needs improvement</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= RANK(Total Sales, All Totals)</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">If East ($97,000) is sorted with all regions</p>
+                        <p class="text-gray-600 text-sm">East ranks #2</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= 2</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 11: Performance -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">11</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Performance</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Categorizes growth as High, Good, or Low</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> Is the region growing fast (>15%), steady (>5%), or stagnant?</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= IF(Growth>15%, "🚀 High", IF(Growth>5%, "📊 Good", "⚠️ Low"))</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">North Growth 15.56% > 15%</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= "🚀 High"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 12: Status -->
+            <div class="mb-8 formula-card bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">12</div>
+                    <h3 class="text-2xl text-purple-700 ml-4 font-bold">Status</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700 mb-2"><strong>Type:</strong> <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">Calculated</span></p>
+                        <p class="text-gray-700 mb-2"><strong>Purpose:</strong> Categorizes each region as Top Performer, Strong, or Developing</p>
+                        <p class="text-gray-700"><strong>What It Tells Us:</strong> Quick assessment based on rank position</p>
+                    </div>
+                    <div class="bg-white border-l-4 border-purple-600 p-4 rounded">
+                        <p class="font-mono text-purple-700 font-semibold mb-3">= IF(Rank<=2, "⭐ Top Performer", IF(Rank<=4, "✅ Strong", "📈 Developing"))</p>
+                        <p class="text-gray-600 text-sm mb-3"><strong>Example:</strong></p>
+                        <p class="text-gray-600 text-sm">If Rank = 2 <= 2</p>
+                        <p class="text-gray-600 text-sm font-bold text-purple-700">= "⭐ Top Performer"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="mb-8 bg-gradient-to-r from-indigo-100 to-purple-100 border-4 border-indigo-600 rounded-lg p-8">
+                <h2 class="text-3xl text-indigo-700 mb-6 font-bold">📊 Formula Summary</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-indigo-600">
+                        <h4 class="font-bold text-indigo-600 mb-3">Raw Data (2 columns)</h4>
+                        <ul class="text-gray-700 space-y-2">
+                            <li>✓ Region</li>
+                            <li>✓ Q1 Sales</li>
+                            <li>✓ Q2 Sales</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-purple-600">
+                        <h4 class="font-bold text-purple-600 mb-3">Calculated (9 columns)</h4>
+                        <ul class="text-gray-700 space-y-2">
+                            <li>✓ Arithmetic: Total, Average, Growth</li>
+                            <li>✓ Percentages: % of Total, Commission</li>
+                            <li>✓ Conditional: Above Avg, Rank, Performance, Status</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg mt-6">
+                    <p class="text-gray-800"><strong>💡 Key Insight:</strong> This dashboard uses basic Excel operations (addition, division, IF statements, RANK) to transform 3 columns of raw data into 12 columns of actionable business intelligence!</p>
+                </div>
+            </div>
+
+            <!-- Practice Section -->
+            <div class="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border-4 border-green-600 rounded-lg p-8">
+                <h2 class="text-3xl text-green-700 mb-6 font-bold">🎯 Practice Challenge</h2>
+                
+                <div class="bg-white rounded-lg p-6 border-l-4 border-green-600">
+                    <p class="text-gray-800 mb-4">Given this data for the "West" region:</p>
+                    <ul class="bg-gray-100 p-4 rounded mb-4 space-y-2 text-gray-800">
+                        <li>Q1 Sales: $42,000</li>
+                        <li>Q2 Sales: $48,000</li>
+                    </ul>
+                    
+                    <p class="text-gray-800 font-semibold mb-4">Calculate (assume Grand Total = $585,000):</p>
+                    <ol class="list-decimal list-inside space-y-3 text-gray-800">
+                        <li>Total Sales</li>
+                        <li>Average Quarterly</li>
+                        <li>Growth %</li>
+                        <li>% of Total</li>
+                        <li>Commission (8%)</li>
+                    </ol>
+
+                    <div class="mt-6 p-4 bg-green-100 border-l-4 border-green-600 rounded">
+                        <p class="font-bold text-green-800 mb-2">Answers:</p>
+                        <ol class="list-decimal list-inside space-y-1 text-green-800 text-sm">
+                            <li>Total Sales: $42,000 + $48,000 = <strong>$90,000</strong></li>
+                            <li>Average Quarterly: $90,000 ÷ 2 = <strong>$45,000</strong></li>
+                            <li>Growth %: (($48,000 - $42,000) / $42,000) × 100 = <strong>14.29%</strong></li>
+                            <li>% of Total: ($90,000 / $585,000) × 100 = <strong>15.38%</strong></li>
+                            <li>Commission: $90,000 × 0.08 = <strong>$7,200</strong></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center py-8 border-t-4 border-gray-300">
+                <p class="text-gray-600 text-lg">Master these formulas and you'll be able to analyze any dataset! 🎓</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+        
+    </div>
+
+    <script>
+        // Sample data with Q1 and Q2 sales
+        const regions = [
+            { region: "North", q1: 45000, q2: 52000 },
+            { region: "South", q1: 38000, q2: 41000 },
+            { region: "East", q1: 55000, q2: 63000 },
+            { region: "West", q1: 42000, q2: 48000 },
+            { region: "Central", q1: 51000, q2: 58000 },
+            { region: "Pacific", q1: 48000, q2: 54000 }
+        ];
+
+        // Calculate derived values
+        function calculateData() {
+            const data = regions.map(region => {
+                const totalSales = region.q1 + region.q2;
+                const avgQuarterly = totalSales / 2;
+                const growth = ((region.q2 - region.q1) / region.q1) * 100;
+                const commission = totalSales * 0.08;
+                
+                return {
+                    ...region,
+                    totalSales,
+                    avgQuarterly,
+                    growth,
+                    commission
+                };
+            });
+
+            // Calculate totals and percentages
+            const grandTotal = data.reduce((sum, d) => sum + d.totalSales, 0);
+            const avgAll = grandTotal / data.length;
+
+            data.forEach(d => {
+                d.percentOfTotal = (d.totalSales / grandTotal) * 100;
+                d.aboveAverage = d.totalSales > avgAll ? "Yes" : "No";
+            });
+
+            // Add ranking
+            const sorted = [...data].sort((a, b) => b.totalSales - a.totalSales);
+            data.forEach(d => {
+                d.rank = sorted.findIndex(s => s.region === d.region) + 1;
+                d.performance = d.growth > 15 ? "🚀 High" : d.growth > 5 ? "📊 Good" : "⚠️ Low";
+                d.status = d.rank <= 2 ? "⭐ Top Performer" : d.rank <= 4 ? "✅ Strong" : "📈 Developing";
+            });
+
+            return { data, grandTotal, avgAll, totalQ1: regions.reduce((sum, r) => sum + r.q1, 0), totalQ2: regions.reduce((sum, r) => sum + r.q2, 0) };
+        }
+
+        const { data, grandTotal, avgAll, totalQ1, totalQ2 } = calculateData();
+
+        // Populate table
+        function populateTable() {
+            const tbody = document.getElementById('dataTable');
+            tbody.innerHTML = data.map(row => `
+                <tr class="border-b border-gray-200 hover:bg-gray-50 transition text-sm">
+                    <td class="py-3 px-4 font-semibold">${row.region}</td>
+                    <td class="py-3 px-4 text-right">$${row.q1.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right">$${row.q2.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right font-bold text-indigo-600">$${row.totalSales.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right">$${row.avgQuarterly.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right ${row.growth > 0 ? 'text-green-600 font-bold' : 'text-red-600'}">${row.growth.toFixed(2)}%</td>
+                    <td class="py-3 px-4 text-right">${row.percentOfTotal.toFixed(1)}%</td>
+                    <td class="py-3 px-4 text-right text-purple-600 font-semibold">$${row.commission.toLocaleString('en-US', {maximumFractionDigits: 0})}</td>
+                    <td class="py-3 px-4 text-center">${row.aboveAverage}</td>
+                    <td class="py-3 px-4 text-center font-bold text-lg">#${row.rank}</td>
+                    <td class="py-3 px-4 text-center">${row.performance}</td>
+                    <td class="py-3 px-4 text-center">${row.status}</td>
+                </tr>
+            `).join('');
+
+            // Update footer
+            document.getElementById('totalQ1').textContent = `$${totalQ1.toLocaleString()}`;
+            document.getElementById('totalQ2').textContent = `$${totalQ2.toLocaleString()}`;
+            document.getElementById('grandTotal').textContent = `$${grandTotal.toLocaleString()}`;
+            document.getElementById('avgAll').textContent = `$${avgAll.toLocaleString('en-US', {maximumFractionDigits: 0})}`;
+            const totalCommission = data.reduce((sum, d) => sum + d.commission, 0);
+            document.getElementById('totalCommission').textContent = `$${totalCommission.toLocaleString('en-US', {maximumFractionDigits: 0})}`;
+        }
+
+        // Create charts
+        function createCharts() {
+            // Quarterly Sales Chart
+            const quarterlyCtx = document.getElementById('quarterlyChart').getContext('2d');
+            new Chart(quarterlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(d => d.region),
+                    datasets: [
+                        {
+                            label: 'Q1 Sales',
+                            data: data.map(d => d.q1),
+                            backgroundColor: '#667eea',
+                        },
+                        {
+                            label: 'Q2 Sales',
+                            data: data.map(d => d.q2),
+                            backgroundColor: '#764ba2',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value / 1000 + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Region Total Chart
+            const regionCtx = document.getElementById('regionChart').getContext('2d');
+            new Chart(regionCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(d => d.region),
+                    datasets: [{
+                        label: 'Total Sales',
+                        data: data.map(d => d.totalSales),
+                        backgroundColor: data.map(d => d.rank === 1 ? '#fbbf24' : d.rank === 2 ? '#d4d4d8' : '#bfdbfe'),
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value / 1000 + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Pie Chart
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: data.map(d => d.region),
+                    datasets: [{
+                        data: data.map(d => d.percentOfTotal),
+                        backgroundColor: ['#667eea', '#764ba2', '#d946ef', '#ec4899', '#f43f5e', '#f97316']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Commission Chart
+            const commissionCtx = document.getElementById('commissionChart').getContext('2d');
+            new Chart(commissionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.map(d => d.region),
+                    datasets: [{
+                        data: data.map(d => d.commission),
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Generate insights
+        function generateInsights() {
+            const insights = document.getElementById('insights');
+            const topRegion = data[0];
+            const maxGrowth = Math.max(...data.map(d => d.growth));
+            const maxGrowthRegion = data.find(d => d.growth === maxGrowth);
+            const totalCommission = data.reduce((sum, d) => sum + d.commission, 0);
+
+            insights.innerHTML = `
+                <div>🏆 <strong>Top Performer:</strong> ${topRegion.region} with $${topRegion.totalSales.toLocaleString()} in total sales</div>
+                <div>📈 <strong>Highest Growth:</strong> ${maxGrowthRegion.region} with ${maxGrowth.toFixed(2)}% growth from Q1 to Q2</div>
+                <div>💰 <strong>Total Commission:</strong> $${totalCommission.toLocaleString('en-US', {maximumFractionDigits: 0})} across all regions</div>
+                <div>📊 <strong>Average Sales per Region:</strong> $${avgAll.toLocaleString('en-US', {maximumFractionDigits: 0})}</div>
+                <div>🎯 <strong>Overall Growth:</strong> ${(((totalQ2 - totalQ1) / totalQ1) * 100).toFixed(2)}% from Q1 to Q2</div>
+            `;
+        }
+
+        // Initialize
+        populateTable();
+        createCharts();
+        generateInsights();
+    </script>
+</body>
+</html>

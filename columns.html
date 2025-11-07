@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Exercises - Grade 6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .exercise-card {
+            transition: all 0.3s ease;
+        }
+        .exercise-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-5 gradient-bg">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+            <div class="gradient-bg text-white py-10 px-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-3">📚 Excel Exercises</h1>
+                <p class="text-lg md:text-xl opacity-90">Grade 6 - Master Formulas & Data Analysis</p>
+            </div>
+        </div>
+
+        <!-- Exercise 1: Student Grades -->
+        <div class="exercise-card bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-6 px-8">
+                <h2 class="text-3xl font-bold mb-2">📊 Exercise 1: Student Grade Analysis</h2>
+                <p class="opacity-90">Calculate average grades, bonus points, and letter grades for students</p>
+            </div>
+
+            <div class="py-10 px-8">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-blue-600 mb-4">📋 Data Table</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white rounded-lg shadow-md overflow-hidden text-sm">
+                            <thead>
+                                <tr class="bg-blue-600 text-white">
+                                    <th class="py-3 px-4 text-left font-semibold">Student Name</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Math Score</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Science Score</th>
+                                    <th class="py-3 px-4 text-center font-semibold">English Score</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-blue-700">Average Score</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-blue-700">Bonus Points (10%)</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-blue-700">Final Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exercise1Table" class="divide-y divide-gray-200">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">📈 Chart: Average Scores</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart1"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">📊 Chart: Final Scores</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart1b"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold text-blue-700 mb-4">🎯 Tasks to Complete:</h4>
+                    <ol class="list-decimal list-inside space-y-3 text-gray-800">
+                        <li><strong>Average Score:</strong> Calculate the average of the three test scores (Math, Science, English)</li>
+                        <li><strong>Bonus Points:</strong> Calculate 10% of the average score as bonus points</li>
+                        <li><strong>Final Score:</strong> Add the average score and bonus points together</li>
+                    </ol>
+                    <div class="mt-4 p-4 bg-white border-l-4 border-blue-600 rounded">
+                        <p class="text-gray-700"><strong>Formulas to use:</strong> AVERAGE, addition, multiplication</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 2: Classroom Book Club Sales -->
+        <div class="exercise-card bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white py-6 px-8">
+                <h2 class="text-3xl font-bold mb-2">📚 Exercise 2: Book Club Sales</h2>
+                <p class="opacity-90">Track book sales, calculate revenue, and find the best seller</p>
+            </div>
+
+            <div class="py-10 px-8">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-green-600 mb-4">📋 Data Table</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white rounded-lg shadow-md overflow-hidden text-sm">
+                            <thead>
+                                <tr class="bg-green-600 text-white">
+                                    <th class="py-3 px-4 text-left font-semibold">Book Title</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Copies Sold</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Price per Book</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-green-700">Total Revenue</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-green-700">% of Total Sales</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-green-700">Best Seller?</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exercise2Table" class="divide-y divide-gray-200">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-gray-100 font-bold">
+                                    <td class="py-3 px-4">TOTAL</td>
+                                    <td class="py-3 px-4 text-center" id="ex2TotalCopies">0</td>
+                                    <td class="py-3 px-4"></td>
+                                    <td class="py-3 px-4 text-center" id="ex2TotalRevenue">$0</td>
+                                    <td class="py-3 px-4 text-center">100%</td>
+                                    <td class="py-3 px-4"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-green-600 mb-4">📈 Chart: Revenue by Book</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart2"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-green-600 mb-4">🥧 Chart: Sales Distribution</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart2b"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold text-green-700 mb-4">🎯 Tasks to Complete:</h4>
+                    <ol class="list-decimal list-inside space-y-3 text-gray-800">
+                        <li><strong>Total Revenue:</strong> Multiply copies sold by price per book for each book</li>
+                        <li><strong>% of Total Sales:</strong> Calculate what percentage each book's revenue is of total revenue</li>
+                        <li><strong>Best Seller?:</strong> Identify which book has the highest revenue (Hint: Use "Yes" or "No")</li>
+                    </ol>
+                    <div class="mt-4 p-4 bg-white border-l-4 border-green-600 rounded">
+                        <p class="text-gray-700"><strong>Formulas to use:</strong> Multiplication, division, MAX, IF</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 3: Sports Team Statistics -->
+        <div class="exercise-card bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white py-6 px-8">
+                <h2 class="text-3xl font-bold mb-2">⚽ Exercise 3: Sports Team Performance</h2>
+                <p class="opacity-90">Track player statistics and calculate averages, rankings, and performance categories</p>
+            </div>
+
+            <div class="py-10 px-8">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-purple-600 mb-4">📋 Data Table</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white rounded-lg shadow-md overflow-hidden text-sm">
+                            <thead>
+                                <tr class="bg-purple-600 text-white">
+                                    <th class="py-3 px-4 text-left font-semibold">Player Name</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Games Played</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Goals Scored</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-purple-700">Goals per Game</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-purple-700">Star Player (>1.5 goals/game)</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-purple-700">Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exercise3Table" class="divide-y divide-gray-200">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-600 mb-4">📊 Chart: Goals per Game</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart3"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-600 mb-4">📈 Chart: Total Goals by Player</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart3b"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 border-l-4 border-purple-500 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold text-purple-700 mb-4">🎯 Tasks to Complete:</h4>
+                    <ol class="list-decimal list-inside space-y-3 text-gray-800">
+                        <li><strong>Goals per Game:</strong> Divide total goals by games played to get the average</li>
+                        <li><strong>Star Player:</strong> Mark players with more than 1.5 goals per game as "Yes" (top performers)</li>
+                        <li><strong>Rank:</strong> Rank players from highest to lowest goals per game</li>
+                    </ol>
+                    <div class="mt-4 p-4 bg-white border-l-4 border-purple-600 rounded">
+                        <p class="text-gray-700"><strong>Formulas to use:</strong> Division, IF, RANK</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 4: Classroom Temperature Monitor -->
+        <div class="exercise-card bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white py-6 px-8">
+                <h2 class="text-3xl font-bold mb-2">🌡️ Exercise 4: Temperature & Comfort Analysis</h2>
+                <p class="opacity-90">Track daily temperatures and calculate comfort levels throughout the week</p>
+            </div>
+
+            <div class="py-10 px-8">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-red-600 mb-4">📋 Data Table</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white rounded-lg shadow-md overflow-hidden text-sm">
+                            <thead>
+                                <tr class="bg-red-600 text-white">
+                                    <th class="py-3 px-4 text-left font-semibold">Day of Week</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Morning Temp (°C)</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Afternoon Temp (°C)</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-red-700">Daily Average Temp</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-red-700">Comfortable? (18-25°C)</th>
+                                    <th class="py-3 px-4 text-center font-semibold bg-red-700">Temperature Change</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exercise4Table" class="divide-y divide-gray-200">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-red-600 mb-4">📈 Chart: Daily Average Temperature</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart4"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-red-600 mb-4">📊 Chart: Temperature Change</h3>
+                        <div class="relative h-96 bg-gray-50 rounded-lg p-5 shadow-md">
+                            <canvas id="chart4b"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold text-red-700 mb-4">🎯 Tasks to Complete:</h4>
+                    <ol class="list-decimal list-inside space-y-3 text-gray-800">
+                        <li><strong>Daily Average Temp:</strong> Calculate the average of morning and afternoon temperatures</li>
+                        <li><strong>Comfortable?:</strong> Check if the average temperature is between 18°C and 25°C (comfortable range)</li>
+                        <li><strong>Temperature Change:</strong> Calculate how much the temperature changed from morning to afternoon</li>
+                    </ol>
+                    <div class="mt-4 p-4 bg-white border-l-4 border-red-600 rounded">
+                        <p class="text-gray-700"><strong>Formulas to use:</strong> AVERAGE, IF with AND, subtraction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-6 px-8">
+                <h2 class="text-3xl font-bold mb-2">💡 Tips & Tricks</h2>
+            </div>
+
+            <div class="py-10 px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
+                        <h4 class="text-lg font-bold text-blue-700 mb-3">📐 Formula Reminders</h4>
+                        <ul class="space-y-2 text-gray-800 text-sm">
+                            <li>✓ <strong>AVERAGE:</strong> =AVERAGE(A1:A5)</li>
+                            <li>✓ <strong>SUM:</strong> =SUM(A1:A5)</li>
+                            <li>✓ <strong>Multiplication:</strong> =A1*B1</li>
+                            <li>✓ <strong>Division:</strong> =A1/B1</li>
+                            <li>✓ <strong>Percentage:</strong> =(A1/B1)*100</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                        <h4 class="text-lg font-bold text-green-700 mb-3">⚙️ Conditional Formulas</h4>
+                        <ul class="space-y-2 text-gray-800 text-sm">
+                            <li>✓ <strong>IF:</strong> =IF(A1>100, "High", "Low")</li>
+                            <li>✓ <strong>RANK:</strong> =RANK(A1, A$1:A$10)</li>
+                            <li>✓ <strong>MAX:</strong> =MAX(A1:A5) for highest</li>
+                            <li>✓ <strong>MIN:</strong> =MIN(A1:A5) for lowest</li>
+                            <li>✓ <strong>AND:</strong> =IF(AND(A1>18, A1<25), "Yes", "No")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="gradient-bg text-white py-10 px-8 text-center">
+                <p class="text-lg">Complete all exercises and become an Excel Master! 🎓</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== EXERCISE 1: Student Grades =====
+        const students = [
+            { name: "Alice", math: 85, science: 92, english: 88 },
+            { name: "Bob", math: 78, science: 85, english: 90 },
+            { name: "Charlie", math: 92, science: 88, english: 85 },
+            { name: "Diana", math: 88, science: 95, english: 92 },
+            { name: "Emma", math: 76, science: 82, english: 88 }
+        ];
+
+        function populateExercise1() {
+            const tbody = document.getElementById('exercise1Table');
+            tbody.innerHTML = students.map(s => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="py-3 px-4 font-semibold">${s.name}</td>
+                    <td class="py-3 px-4 text-center">${s.math}</td>
+                    <td class="py-3 px-4 text-center">${s.science}</td>
+                    <td class="py-3 px-4 text-center">${s.english}</td>
+                    <td class="py-3 px-4 text-center bg-blue-50">___</td>
+                    <td class="py-3 px-4 text-center bg-blue-50">___</td>
+                    <td class="py-3 px-4 text-center bg-blue-50">___</td>
+                </tr>
+            `).join('');
+        }
+
+        function createChart1() {
+            const ctx = document.getElementById('chart1').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: students.map(s => s.name),
+                    datasets: [
+                        { label: 'Math', data: students.map(s => s.math), backgroundColor: '#3b82f6' },
+                        { label: 'Science', data: students.map(s => s.science), backgroundColor: '#10b981' },
+                        { label: 'English', data: students.map(s => s.english), backgroundColor: '#f59e0b' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+            });
+
+            const ctx2 = document.getElementById('chart1b').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: students.map(s => s.name),
+                    datasets: [{
+                        label: 'Final Score',
+                        data: students.map(s => {
+                            const avg = (s.math + s.science + s.english) / 3;
+                            return avg + (avg * 0.1);
+                        }),
+                        backgroundColor: '#8b5cf6'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 105 } } }
+            });
+        }
+
+        // ===== EXERCISE 2: Book Sales =====
+        const books = [
+            { title: "Adventure Island", copies: 24, price: 8 },
+            { title: "Mystery Night", copies: 18, price: 10 },
+            { title: "Magic School", copies: 32, price: 7 },
+            { title: "Space Quest", copies: 15, price: 12 }
+        ];
+
+        function populateExercise2() {
+            const tbody = document.getElementById('exercise2Table');
+            tbody.innerHTML = books.map(b => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="py-3 px-4 font-semibold">${b.title}</td>
+                    <td class="py-3 px-4 text-center">${b.copies}</td>
+                    <td class="py-3 px-4 text-center">$${b.price}</td>
+                    <td class="py-3 px-4 text-center bg-green-50">___</td>
+                    <td class="py-3 px-4 text-center bg-green-50">___</td>
+                    <td class="py-3 px-4 text-center bg-green-50">___</td>
+                </tr>
+            `).join('');
+
+            const totalCopies = books.reduce((sum, b) => sum + b.copies, 0);
+            const totalRevenue = books.reduce((sum, b) => sum + (b.copies * b.price), 0);
+            document.getElementById('ex2TotalCopies').textContent = totalCopies;
+            document.getElementById('ex2TotalRevenue').textContent = `$${totalRevenue}`;
+        }
+
+        function createChart2() {
+            const ctx = document.getElementById('chart2').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: books.map(b => b.title),
+                    datasets: [{
+                        label: 'Total Revenue ($)',
+                        data: books.map(b => b.copies * b.price),
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+
+            const ctx2 = document.getElementById('chart2b').getContext('2d');
+            const totalRevenue = books.reduce((sum, b) => sum + (b.copies * b.price), 0);
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: books.map(b => b.title),
+                    datasets: [{
+                        data: books.map(b => ((b.copies * b.price) / totalRevenue) * 100),
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        // ===== EXERCISE 3: Sports =====
+        const players = [
+            { name: "Alex", games: 10, goals: 18 },
+            { name: "Jordan", games: 12, goals: 15 },
+            { name: "Sam", games: 8, goals: 14 },
+            { name: "Casey", games: 11, goals: 22 },
+            { name: "Morgan", games: 9, goals: 12 }
+        ];
+
+        function populateExercise3() {
+            const tbody = document.getElementById('exercise3Table');
+            tbody.innerHTML = players.map(p => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="py-3 px-4 font-semibold">${p.name}</td>
+                    <td class="py-3 px-4 text-center">${p.games}</td>
+                    <td class="py-3 px-4 text-center">${p.goals}</td>
+                    <td class="py-3 px-4 text-center bg-purple-50">___</td>
+                    <td class="py-3 px-4 text-center bg-purple-50">___</td>
+                    <td class="py-3 px-4 text-center bg-purple-50">___</td>
+                </tr>
+            `).join('');
+        }
+
+        function createChart3() {
+            const ctx = document.getElementById('chart3').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: players.map(p => p.name),
+                    datasets: [{
+                        label: 'Goals per Game',
+                        data: players.map(p => (p.goals / p.games).toFixed(2)),
+                        backgroundColor: '#a855f7'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+
+            const ctx2 = document.getElementById('chart3b').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: players.map(p => p.name),
+                    datasets: [{
+                        label: 'Total Goals',
+                        data: players.map(p => p.goals),
+                        backgroundColor: '#d946ef'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // ===== EXERCISE 4: Temperature =====
+        const temps = [
+            { day: "Monday", morning: 16, afternoon: 22 },
+            { day: "Tuesday", morning: 18, afternoon: 24 },
+            { day: "Wednesday", morning: 20, afternoon: 26 },
+            { day: "Thursday", morning: 19, afternoon: 23 },
+            { day: "Friday", morning: 17, afternoon: 21 }
+        ];
+
+        function populateExercise4() {
+            const tbody = document.getElementById('exercise4Table');
+            tbody.innerHTML = temps.map(t => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="py-3 px-4 font-semibold">${t.day}</td>
+                    <td class="py-3 px-4 text-center">${t.morning}</td>
+                    <td class="py-3 px-4 text-center">${t.afternoon}</td>
+                    <td class="py-3 px-4 text-center bg-red-50">___</td>
+                    <td class="py-3 px-4 text-center bg-red-50">___</td>
+                </tr>
+            `).join('');
+        }
+
+        function createChart4() {
+            const ctx = document.getElementById('chart4').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: temps.map(t => t.day),
+                    datasets: [
+                        {
+                            label: 'Morning Temp',
+                            data: temps.map(t => t.morning),
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Afternoon Temp',
+                            data: temps.map(t => t.afternoon),
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Average Temp',
+                            data: temps.map(t => (t.morning + t.afternoon) / 2),
+                            borderColor: '#10b981',
+                            borderDash: [5, 5],
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: false, min: 10, max: 30 } }
+                }
+            });
+
+            const ctx2 = document.getElementById('chart4b').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: temps.map(t => t.day),
+                    datasets: [{
+                        label: 'Temperature Change (°C)',
+                        data: temps.map(t => t.afternoon - t.morning),
+                        backgroundColor: temps.map(t => t.afternoon - t.morning > 5 ? '#ef4444' : '#10b981')
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // Initialize all exercises
+        function initializeAll() {
+            populateExercise1();
+            createChart1();
+            populateExercise2();
+            createChart2();
+            populateExercise3();
+            createChart3();
+            populateExercise4();
+            createChart4();
+        }
+
+        window.addEventListener('load', initializeAll);
+    </script>
+</body>
+</html><td class="py-3 px-4 text-center bg-red-50">___</td>
